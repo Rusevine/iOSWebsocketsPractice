@@ -83,7 +83,23 @@ extension ChatRoom: StreamDelegate {
                     break
                 }
             }
+            
+            if let message = processMessageString(buffer: buffer, length: numberOfBytesRead) {
+                
+            }
         }
+        
+    }
+    
+    private func processMessageString(buffer: UnsafeMutablePointer<UInt8>, length: Int) -> Message? {
+        
+        guard let stringArray = String(bytesNoCopy: buffer, length: length, encoding: .ascii, freeWhenDone: true)?.components(separatedBy: ":"),
+            let name = stringArray.first,
+            let message = stringArray.last else { return nil }
+        
+        let messageSender: MessageSender = (name == self.username) ? .ourself : .someoneElse
+        
+        return Message(message: message, messageSender: messageSender, username: name)
     }
     
 }
