@@ -57,6 +57,7 @@ extension ChatRoom: StreamDelegate {
         switch eventCode {
         case Stream.Event.hasBytesAvailable:
             print("New message received")
+            readAvailableBytes(stream: aStream as! InputStream)
         case Stream.Event.endEncountered:
             print("New message received")
         case Stream.Event.errorOccurred:
@@ -64,9 +65,25 @@ extension ChatRoom: StreamDelegate {
         case Stream.Event.hasSpaceAvailable:
             print("Has space availiable")
         default:
-            print("Someother event")
+            print("Some other event")
         }
         
+    }
+    
+    private func readAvailableBytes(stream: InputStream) {
+        
+        let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: maxReadLength)
+        
+        while stream.hasBytesAvailable {
+            
+            let numberOfBytesRead = inputStream.read(buffer, maxLength: maxReadLength)
+            
+            if numberOfBytesRead < 0 {
+                if let _ = stream.streamError {
+                    break
+                }
+            }
+        }
     }
     
 }
