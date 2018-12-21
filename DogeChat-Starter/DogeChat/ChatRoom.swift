@@ -34,6 +34,8 @@ class ChatRoom: NSObject {
         
         inputStream.open()
         outputStream.open()
+        
+        inputStream.delegate = self
     }
     
     func joinChat(username: String){
@@ -46,4 +48,25 @@ class ChatRoom: NSObject {
         
     }
 
+}
+
+extension ChatRoom: StreamDelegate {
+    
+    func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
+        
+        switch eventCode {
+        case Stream.Event.hasBytesAvailable:
+            print("New message received")
+        case Stream.Event.endEncountered:
+            print("New message received")
+        case Stream.Event.errorOccurred:
+            print("Error has occured")
+        case Stream.Event.hasSpaceAvailable:
+            print("Has space availiable")
+        default:
+            print("Someother event")
+        }
+        
+    }
+    
 }
