@@ -37,6 +37,8 @@ class ChatRoomViewController: UIViewController {
   var messages = [Message]()
   
   var username = ""
+    
+  let chatRoom = ChatRoom()
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
