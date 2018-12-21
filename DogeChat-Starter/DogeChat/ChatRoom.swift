@@ -35,5 +35,15 @@ class ChatRoom: NSObject {
         inputStream.open()
         outputStream.open()
     }
+    
+    func joinChat(username: String){
+        
+        let data = "iam: \(username)".data(using: .ascii)!
+        
+        self.username = username
+        
+        _ = data.withUnsafeBytes { outputStream.write($0, maxLength: data.count)}
+        
+    }
 
 }
