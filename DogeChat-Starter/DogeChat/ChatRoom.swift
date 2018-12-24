@@ -54,6 +54,12 @@ class ChatRoom: NSObject {
         _ = data.withUnsafeBytes { outputStream.write($0, maxLength: data.count)}
         
     }
+    
+    func sendMessage(message: String) {
+        let data = "msg:\(message)".data(using: .ascii)!
+        
+        _ = data.withUnsafeBytes { outputStream.write($0, maxLength: data.count) }
+    }
 
 }
 
