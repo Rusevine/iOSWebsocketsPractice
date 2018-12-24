@@ -8,10 +8,17 @@
 
 import UIKit
 
+protocol ChatRoomDelegate {
+    func receivedMessage(message: Message)
+
+}
+
 class ChatRoom: NSObject {
     
     var inputStream: InputStream!
     var outputStream: OutputStream!
+    
+    var delegate: ChatRoomDelegate?
     
     var username = ""
     
@@ -85,7 +92,7 @@ extension ChatRoom: StreamDelegate {
             }
             
             if let message = processMessageString(buffer: buffer, length: numberOfBytesRead) {
-                
+                delegate?.receivedMessage(message: message)
             }
         }
         
