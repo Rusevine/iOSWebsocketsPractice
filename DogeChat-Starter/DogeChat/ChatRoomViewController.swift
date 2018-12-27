@@ -51,13 +51,13 @@ class ChatRoomViewController: UIViewController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-
+    chatRoom.stopChatSession()
   }
 }
 
 extension ChatRoomViewController: ChatRoomDelegate {
     func receivedMessage(message: Message) {
-        
+        insertNewMessageCell(message)
     }
 }
 

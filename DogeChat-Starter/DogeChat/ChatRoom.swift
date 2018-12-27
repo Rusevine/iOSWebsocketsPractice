@@ -47,7 +47,7 @@ class ChatRoom: NSObject {
     
     func joinChat(username: String){
         
-        let data = "iam: \(username)".data(using: .ascii)!
+        let data = "iam:\(username)".data(using: .ascii)!
         
         self.username = username
         
@@ -59,6 +59,11 @@ class ChatRoom: NSObject {
         let data = "msg:\(message)".data(using: .ascii)!
         
         _ = data.withUnsafeBytes { outputStream.write($0, maxLength: data.count) }
+    }
+    
+    func stopChatSession() {
+        inputStream.close()
+        outputStream.close()
     }
 
 }
@@ -72,7 +77,7 @@ extension ChatRoom: StreamDelegate {
             print("New message received")
             readAvailableBytes(stream: aStream as! InputStream)
         case Stream.Event.endEncountered:
-            print("New message received")
+            stopChatSession()
         case Stream.Event.errorOccurred:
             print("Error has occured")
         case Stream.Event.hasSpaceAvailable:
